@@ -3,6 +3,7 @@
 #include "simple_mc3.h"
 #include "double_digital.h"
 #include "vanilla1.h"
+#include "payoff3.h"
 
 using namespace std;
 
@@ -38,6 +39,19 @@ int main()
 
 	PayOffDoubleDigital thePayOff(low, up);
 	// PayOffPut thePayOff(low);
+
+	PayOffCustomCall customCall(low);
+    PayOffCustomPut customPut(low);
+
+    VanillaOption customCallOption(customCall, expiry);
+    VanillaOption customPutOption(customPut, expiry);
+
+    double resultCustomCall = SimpleMonteCarlo3(customCallOption, spot, vol, r, number_of_paths);
+    double resultCustomPut = SimpleMonteCarlo3(customPutOption, spot, vol, r, number_of_paths);
+
+    cout << "\nCustom call price: " << resultCustomCall << "\n";
+    cout << "Custom put price: " << resultCustomPut << "\n";
+
 
 	VanillaOption theOption(thePayOff, expiry);
 

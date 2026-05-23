@@ -49,4 +49,48 @@ private:
 	double strike;
 };
 
+
+class PayOffDigital : public PayOff
+{
+public:
+	PayOffDigital(double strike_);
+	virtual double operator()(double spot) const;
+	virtual ~PayOffDigital() {}
+private:
+	double strike;
+};
+
+class PayOffDoubleDigital : public PayOff
+{
+public:
+	PayOffDoubleDigital(double strike_, double strike_upper_);
+	virtual double operator()(double spot) const;
+	virtual ~PayOffDoubleDigital() {}
+private:
+	double strike;
+	double strike_upper;
+};
+
+class PayOffPower1 : public PayOff
+{
+public:
+	PayOffPower1(double strike_, int type_);
+	virtual double operator()(double spot) const;
+	virtual ~PayOffPower1() {}
+private:
+	double strike;
+	int type;
+};
+
+class PayOffPower2 : public PayOff
+{
+public:
+	PayOffPower2(double strike_, int type_);
+	virtual double operator()(double spot) const;
+	virtual ~PayOffPower2() {}
+private:
+	double strike;
+	int type;
+};
+
 #endif

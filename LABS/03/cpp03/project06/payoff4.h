@@ -38,4 +38,26 @@ private:
     double strike;
 };
 
+class PayOffCustomCall : public PayOff
+{
+public:
+    PayOffCustomCall(double strike_);
+    virtual double operator()(double spot) const;
+    virtual ~PayOffCustomCall() {}
+    virtual PayOff *clone() const;
+private:
+    double strike;
+};
+
+class PayOffCustomPut : public PayOff
+{
+public:
+    PayOffCustomPut(double strike_);
+    virtual double operator()(double spot) const;
+    virtual ~PayOffCustomPut() {}
+    virtual PayOff *clone() const;
+private:
+    double strike;
+};
+
 #endif

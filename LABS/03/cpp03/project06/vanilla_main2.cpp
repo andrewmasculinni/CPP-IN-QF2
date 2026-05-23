@@ -1,6 +1,7 @@
 #include "iostream"
 #include "simple_mc4.h"
 #include "vanilla2.h"
+#include "payoff4.h"
 using namespace std;
 
 int main()
@@ -56,6 +57,17 @@ int main()
                                  r,
                                  number_of_paths);
     cout << "\nthe put price is " << result << "\n";
+
+    PayOffCustomCall customCall(strike);
+    VanillaOption customCallOption(customCall, expiry);
+    result = simple_monte_carlo4(customCallOption, spot, vol, r, number_of_paths);
+    cout << "\nthe custom call price is " << result << "\n";
+
+    PayOffCustomPut customPut(strike);
+    VanillaOption customPutOption(customPut, expiry);
+    result = simple_monte_carlo4(customPutOption, spot, vol, r, number_of_paths);
+    cout << "\nthe custom put price is " << result << "\n";
+
 
     return 0;
 }

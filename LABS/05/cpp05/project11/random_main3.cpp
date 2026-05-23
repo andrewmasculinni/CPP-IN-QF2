@@ -16,8 +16,11 @@ using namespace std;
 int main()
 {
     srand(time(NULL));
-    // unsigned long baseSeed = rand();
-    unsigned long baseSeed = 123;
+    unsigned long seed;
+    cout << "Enter seed (0 for random): ";
+    cin >> seed;
+    if (seed == 0)
+        seed = rand();
 
     double expiry = 0.5;
     double strike = 100;
@@ -47,7 +50,7 @@ int main()
     ConfidenceLimits gatherer1;
     RandomParkMiller generator1(1);
 
-    generator1.set_seed(124);
+    generator1.set_seed(seed);
     gatherer1.reset();
     simple_monte_carlo8(the_option,
                         spot,
@@ -60,6 +63,25 @@ int main()
 
     cout << "\nFor the call price the results are: \n";
     print_results(result);
+
+    // pricing with antithetic variates
+    ConfidenceLimits gatherer2;
+    RandomParkMiller generator2(1);
+    AntiThetic anti_generator(generator2);
+
+    anti_generator.set_seed(seed);
+    gatherer2.reset();
+    simple_monte_carlo8(the_option,
+                        spot,
+                        VolParam,
+                        rParam,
+                        number_of_paths,
+                        gatherer2,
+                        anti_generator);
+    vector<vector<double>> result2 = gatherer2.get_results_so_far();
+
+    cout << "\nFor the call price with antithetic variates: \n";
+    print_results(result2);
 
     return 0;
 }

@@ -38,4 +38,28 @@ private:
     double strike;
 };
 
+class PayOffBarrierCall : public PayOff
+{
+public:
+    PayOffBarrierCall(double strike1_, double strike2_);
+    virtual double operator()(double spot) const;
+    virtual ~PayOffBarrierCall() {}
+    virtual PayOff *clone() const;
+private:
+    double strike1;
+    double strike2;
+};
+
+class PayOffBarrierPut : public PayOff
+{
+public:
+    PayOffBarrierPut(double strike1_, double strike2_);
+    virtual double operator()(double spot) const;
+    virtual ~PayOffBarrierPut() {}
+    virtual PayOff *clone() const;
+private:
+    double strike1;
+    double strike2;
+};
+
 #endif

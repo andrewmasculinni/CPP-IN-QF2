@@ -6,6 +6,7 @@ int main()
 {
 	double expiry;
 	double strike;
+	double strike_upper;
 	double spot;
 	double vol;
 	double r;
@@ -16,6 +17,10 @@ int main()
 
 	cout << "\nEnter strike\n";
 	cin >> strike;
+
+	cout << "\nEnter upper strike\n";
+	cin >> strike_upper;
+
 
 	cout << "\nEnter spot\n";
 	cin >> spot;
@@ -31,7 +36,7 @@ int main()
 
 	// asking the user about the type of the option
 	unsigned long option_type;
-	cout << "\nEnter 0 for call, otherwise put\n";
+	cout << "\nEnter 0 for call, 1 for put, 2 for digital, 3 for double digital, 4 for power1 call, 5 for power1 put, 6 for power2 call, 7 for power2 put\n";
 	cin >> option_type;
 
 	// Now, we have to create the new object.
@@ -62,8 +67,22 @@ int main()
 
 	if (option_type == 0)
 		payOffPtr = new PayOffCall(strike);
-	else
+	else if (option_type == 1)
 		payOffPtr = new PayOffPut(strike);
+	else if (option_type == 2)
+		payOffPtr = new PayOffDigital(strike);
+	else if (option_type == 3)
+		payOffPtr = new PayOffDoubleDigital(strike, strike_upper);
+	else if (option_type == 4)
+		payOffPtr = new PayOffPower1(strike, 0); // 0 for call
+	else if (option_type == 5)
+		payOffPtr = new PayOffPower1(strike, 1); // 1 for put
+	else if (option_type == 6)
+		payOffPtr = new PayOffPower2(strike, 0); // 0 for call
+	else if (option_type == 7)
+		payOffPtr = new PayOffPower2(strike, 1); // 1 for put
+
+
 
 	// finally we can call the MC function dereferencing the pointer in the first argument.
 	double result = simple_monte_carlo2(*payOffPtr,
@@ -73,7 +92,7 @@ int main()
 										r,
 										number_of_paths);
 
-	cout << "\nthe price is " << result << "\n";
+	cout << "\nThe price is " << result << "\n";
 
 	// !!! IMPORTANT !!!
 	// We must get rid of every object created by the 'new' operator.

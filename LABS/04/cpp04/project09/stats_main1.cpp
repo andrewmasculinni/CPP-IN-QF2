@@ -45,6 +45,7 @@ int main()
     ParametersConstant volParam(vol);
     ParametersConstant rParam(r);
     StatisticsMean gatherer;
+    StatisticsSD gathererSD;
 
     simple_monte_carlo7(theOption,
                         spot,
@@ -53,8 +54,16 @@ int main()
                         number_of_paths,
                         gatherer);
 
-    vector<vector<double>> results = gatherer.get_results_so_far();
+    simple_monte_carlo7(theOption, 
+                        spot, 
+                        volParam, 
+                        rParam, 
+                        number_of_paths, 
+                        gathererSD);
 
+    vector<vector<double>> results = gatherer.get_results_so_far();
+    vector<vector<double>> resultsSD = gathererSD.get_results_so_far();
+    
     cout << "\nFor the call price the results are \n";
 
     for (unsigned long i = 0; i < results.size(); i++)
@@ -66,5 +75,9 @@ int main()
         cout << "\n";
     }
 
+    cout << "\nMean: " << results[0][0] << "\n";
+    cout << "\nSD Mean: " << resultsSD[0][0] << "\n";
+    cout << "SD: " << resultsSD[0][1] << "\n";
+    cout << "95% CI: [" << resultsSD[0][2] << ", " << resultsSD[0][3] << "]\n";
     return 0;
 }

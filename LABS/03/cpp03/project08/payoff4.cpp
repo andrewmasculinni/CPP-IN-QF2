@@ -31,3 +31,41 @@ PayOff *PayOffPut::clone() const
 {
     return new PayOffPut(*this);
 }
+
+PayOffBarrierCall::PayOffBarrierCall(double strike1_, double strike2_)
+{
+    strike1 = strike1_;
+    strike2 = strike2_;
+}
+
+double PayOffBarrierCall::operator()(double spot) const
+{
+    if (spot <= strike2)
+        return max(spot - strike1, 0.0);
+    else
+        return 2 * max(spot - strike1, 0.0);
+}
+
+PayOffBarrierPut::PayOffBarrierPut(double strike1_, double strike2_)
+{
+    strike1 = strike1_;
+    strike2 = strike2_;
+}
+
+double PayOffBarrierPut::operator()(double spot) const
+{
+    if (spot > strike1)
+        return max(strike2 - spot, 0.0);
+    else
+        return 2 * max(strike2 - spot, 0.0);
+}
+
+PayOff *PayOffBarrierCall::clone() const
+{
+    return new PayOffBarrierCall(*this);
+}
+
+PayOff *PayOffBarrierPut::clone() const
+{
+    return new PayOffBarrierPut(*this);
+}

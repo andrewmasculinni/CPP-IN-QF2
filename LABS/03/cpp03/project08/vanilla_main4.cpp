@@ -12,12 +12,16 @@ int main()
     double vol;
     double r;
     unsigned long number_of_paths;
+    double strike2;
 
     cout << "\nEnter expiry\n";
     cin >> expiry;
 
     cout << "\nEnter strike\n";
     cin >> strike;
+
+    cout << "\nEnter strike2 (K2, must be < strike)\n";
+    cin >> strike2;
 
     cout << "\nEnter spot\n";
     cin >> spot;
@@ -43,7 +47,7 @@ int main()
                                         r_param,
                                         number_of_paths);
 
-    cout << "\nthe call price is " << result << "\n";
+    cout << "\nThe call price is " << result << "\n";
 
     VanillaOption option2(option1);
 
@@ -53,7 +57,7 @@ int main()
                                  r_param,
                                  number_of_paths);
 
-    cout << "\nthe call price is " << result << "\n";
+    cout << "\nThe call price is " << result << "\n";
 
     PayOffPut the_payoff2(strike);
     // std::cout << "step 1\n";
@@ -68,7 +72,17 @@ int main()
                                  r_param,
                                  number_of_paths);
 
-    cout << "\nthe put price is " << result << "\n";
+    cout << "\nThe put price is " << result << "\n";
+
+    PayOffBarrierCall levCall(strike, strike2);
+    VanillaOption levCallOption(levCall, expiry);
+    result = simple_monte_carlo6(levCallOption, spot, vol_param, r_param, number_of_paths);
+    cout << "\nThe barrier call price is " << result << "\n";
+
+    PayOffBarrierPut levPut(strike, strike2);
+    VanillaOption levPutOption(levPut, expiry);
+    result = simple_monte_carlo6(levPutOption, spot, vol_param, r_param, number_of_paths);
+    cout << "\nThe barrier put price is " << result << "\n";
 
     return 0;
 }

@@ -29,4 +29,19 @@ private:
     unsigned long paths_done;
 };
 
+class StatisticsSD : public StatisticsMC
+{
+
+public:
+    StatisticsSD();
+    virtual void dump_one_result(double result);
+    virtual std::vector<std::vector<double>> get_results_so_far() const;
+    virtual StatisticsMC *clone() const;
+
+private:
+    double running_sum;
+    double running_sum_sq;
+    unsigned long paths_done;
+};
+
 #endif

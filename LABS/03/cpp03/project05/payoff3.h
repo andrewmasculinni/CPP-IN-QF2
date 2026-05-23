@@ -49,4 +49,24 @@ private:
 	double strike;
 };
 
+class PayOffCustomCall : public PayOff
+{
+public:
+    PayOffCustomCall(double strike_);
+    virtual double operator()(double spot) const;
+    virtual ~PayOffCustomCall() {}
+private:
+    double strike;
+};
+
+class PayOffCustomPut : public PayOff
+{
+public:
+    PayOffCustomPut(double strike_);
+    virtual double operator()(double spot) const;
+    virtual ~PayOffCustomPut() {}
+private:
+    double strike;
+};
+
 #endif
